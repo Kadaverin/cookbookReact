@@ -1,28 +1,38 @@
 const api = { 
 
-  fetchAllRecipes: () => {
+  fetchAllRecipes: () => (
     fetch('/api/recipes/')
-    .then(res => {console.log(res); res.json()})
-  },
+    .then(res =>  res.json())
+  ),
 
-  postRecipy : (recipy) => {
-    fetch('/api/recipes/' , { method: 'POST', body: recipy})
+  createRecipy : (recipe) => (
+    fetch('/api/recipes/' , createOptionsObject('POST' , recipe))
     .then(res => res.json())
-  },
-  fetchRecipeById: (id) => {
+  ),
+
+  fetchRecipeById: (id) => (
     fetch(`/api/recipes/${id}`)
     .then(res => res.json())
-  },
+  ),
 
-  patchRecipe: (id , updatedRecipy) => {
-    fetch(`/api/recipes/${id}` , { method : 'PATCH' , body : updatedRecipy})
+  patchRecipe: (id , updatedRecipy) =>(
+    fetch(`/api/recipes/${id}` , createOptionsObject('PATCH' , updatedRecipy))
     .then(res => res.json())
-  },
+  ),
 
-  deleteRecipe: (id) => {
+  deleteRecipe: (id) => (
     fetch(`/api/recipes/${id}` , { method : 'DELETE'})
     .then(res => res.json())
+  )
+}
+
+function createOptionsObject(method, body){
+  const prop = {
+      method: method, 
+      headers: {"content-type": "application/json"}, 
   }
+  body && (prop.body = JSON.stringify(body))
+  return prop
 }
 
 export default api

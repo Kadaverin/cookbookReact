@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { createRecipeRequest } from '../../actions/recipes';
 import RecipeForm from '../../components/RecipeForm/recipeForm'
 
-import { Button , Form } from 'semantic-ui-react'
-// import {fetchAllRecipes , deleteRecipe} from '../../actions/recipes'
-// import { allRecipes } from '../../reducers/recipes'
+const CreateRecipe = (props) => (
 
-export default class CreateRecipe extends Component{
-  render(){
-    return(
-      <div>
-        Creating
-      </div>
-    )
-  }
+      <RecipeForm
+        formTitle = 'Create new recipe'
+        submitText = 'Create'
+        submitHandler = { props.actions.createRecipeRequest }
+        cancelHandler = { () => props.history.push('/recipes') }
+      />
+)
+  
+function mapDispatchToProps(dispatch){
+  return { actions : bindActionCreators({ createRecipeRequest }, dispatch) }
 }
+
+export default connect(null, mapDispatchToProps)(CreateRecipe)

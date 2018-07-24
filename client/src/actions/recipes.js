@@ -1,6 +1,8 @@
 import * as actionTypes from '../constants/actionTypes'
 
-export const fetchAllRecipes = () => ({
+// GET ALL
+
+export const fetchAllRecipesRequest = () => ({
   type: actionTypes.FETCH_ALL_RECIPES_REQUEST
 })
 
@@ -16,6 +18,8 @@ export const allRecipesFetchedAndNormalized = (all , byId) => ({
   }
 })
 
+// GET ONE
+
 export const fetchRecipeRequest = (id) => ({
   type: actionTypes.FETCH_RECIPE_SUCCESS,
   payload : { id }
@@ -26,13 +30,38 @@ export const fetchRecipeSuccess = (recipe) => ({
   payload: { ...recipe }
 })
 
-export const fetchRecipeError = () =>({
+export const fetchRecipeError = () => ({
   type: actionTypes.FETCH_RECIPE_ERROR
 })
 
-export const deleteRecipe = () => ({
+
+// POST
+
+export const createRecipeRequest = (recipe) => ({
+  type: actionTypes.CREATE_RECIPE_REQUEST,
+  payload: recipe
+})
+
+export const createRecipeSuccess = (newRecipe) => ({
+  type: actionTypes.CREATE_RECIPE_SUCCESS,
+  payload: newRecipe
+})
+
+export const createRecipeError = () => ({
+  type: actionTypes.CREATE_RECIPE_ERROR
+})
+
+// DELETE
+
+export const deleteRecipeRequest = () => ({
   type: actionTypes.DELETE_RECIPE_REQUEST
 })
 
+export const deleteRecipeSucess = () => ({
+  type: actionTypes.DELETE_RECIPE_SUCCESS
+})
 
-// export const 
+export const deleteRecipeError = () => ({
+  type: actionTypes.DELETE_RECIPE_ERROR
+})
+

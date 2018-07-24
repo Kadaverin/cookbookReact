@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {fetchAllRecipes , deleteRecipe} from '../../actions/recipes';
+import {fetchAllRecipesRequest , deleteRecipeRequest} from '../../actions/recipes';
 import { allRecipes } from '../../reducers/recipes';
 
 import RecipeList from '../../components/RecipeList/recipeList';
 import RecipeListHeader from '../../components/RecipeList/recipeListHeader';
 
+
+import { Container } from 'semantic-ui-react'
+
 class MainRecipesPage extends Component {
 
 
   componentDidMount(){
-    this.props.actions.fetchAllRecipes();
+    this.props.actions.fetchAllRecipesRequest();
   }
 
   handleDeleteRecipy = (id) => {
-    this.props.atcions.deleteRecipe(id)
+    this.props.atcions.deleteRecipeRequest(id)
   }
 
   handleEditRecipe(id){
     this.props.history.push(`/recipes/${id}`)
   }
 
-  handleAddRecipeClick =() =>{
+  handleAddRecipeClick = () =>{
     this.props.history.push('/recipes/new')
   }
 
@@ -32,11 +35,12 @@ class MainRecipesPage extends Component {
     const { recipes } = this.props;
     return (
       <div>
+        <Container >
         <RecipeListHeader
           goToCreatRecipeComponent = { this.handleAddRecipeClick }
         />
-        <RecipeList/>
-        {recipes}
+        <RecipeList recipes = {recipes}/>
+        </Container>
       </div>
     );
   }
@@ -47,7 +51,11 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
-  return { actions : bindActionCreators({ fetchAllRecipes, deleteRecipe }, dispatch) }
+  return { 
+    actions : bindActionCreators(
+      { fetchAllRecipesRequest, deleteRecipeRequest }
+      , dispatch) 
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainRecipesPage)

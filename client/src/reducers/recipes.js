@@ -40,6 +40,9 @@ function all (state = initialState.all, action) {
     case actionTypes.DELETE_RECIPE_SUCCESS:
       return state.filter( id => id!== action.payload.id)
 
+    case actionTypes.CREATE_RECIPE_SUCCESS:
+      return [ ...state, action.payload._id]
+
     default: return state
   }
 }
@@ -52,6 +55,9 @@ function byId(state = initialState.byId, action){
 
     case actionTypes.FETCH_ALL_RECIPES_SUCCESS: 
       return action.payload.byId
+
+    case actionTypes.CREATE_RECIPE_SUCCESS:
+     return { ...state , [action.payload._id]: action.payload}
 
     default: return state
   }
