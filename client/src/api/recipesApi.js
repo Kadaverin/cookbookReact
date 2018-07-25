@@ -15,8 +15,13 @@ const api = {
     .then(res => res.json())
   ),
 
-  patchRecipe: (id , updatedRecipy) =>(
-    fetch(`/api/recipes/${id}` , createOptionsObject('PATCH' , updatedRecipy))
+  patchRecipeRating: (id, rating) => (
+    fetch(`/api/recipes/${id}` , createOptionsObject('PATCH' , {rating : rating}))
+    .then(res => res.json())
+  ),
+
+  updateRecipe: (id , updatedRecipy) =>(
+    fetch(`/api/recipes/${id}` , createOptionsObject('PUT' , updatedRecipy))
     .then(res => res.json())
   ),
 

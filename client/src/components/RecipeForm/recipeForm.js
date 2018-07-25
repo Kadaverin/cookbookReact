@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Button , Form , Segment, TextArea , Grid} from 'semantic-ui-react'
+import { Button , Form , Segment, Grid} from 'semantic-ui-react'
+import PropTypes from 'prop-types';
 
 
 export default class RecipeForm extends Component{
   constructor(props){
     super(props);
     this.state = {
-      title : this.props.initTitle || '',
-      description : this.props.initDesc || ''
+      title : this.props.initTitle ,
+      description : this.props.initDesc 
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -50,11 +51,25 @@ export default class RecipeForm extends Component{
             <Button.Group>
               <Button  onClick = { this.props.cancelHandler }>Go back</Button>
               <Button.Or/>
-              <Button type='submit' color = 'teal' positive>{ this.props.submitText }</Button>
+              <Button type='submit' color = 'teal'>{ this.props.submitText }</Button>
             </Button.Group>
           </Form>
         </Segment> 
       </Grid>
     )
   }
+}
+
+RecipeForm.defaultProps = { 
+  initDesc: '',
+  initTitle: '',
+}
+
+RecipeForm.propTypes = {
+  submitText: PropTypes.string,
+  initDesc: PropTypes.string,
+  initTitle: PropTypes.string,
+  cancelHandler: PropTypes.func.isRequired,
+  submitHandler: PropTypes.func.isRequired,
+  formTitle: PropTypes.string.isRequired
 }

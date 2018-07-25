@@ -1,36 +1,43 @@
-import React, { Component } from 'react';
-
+import React from 'react';
 import { Grid , Checkbox, Button} from 'semantic-ui-react'
 import { Input } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
 
 
-export default class RecipeListHeader extends Component{
 
-  handleSearchInput = ({target}) =>{
-    this.props.handleSearch(target.value)
-  }
+const RecipeListHeader = (props) => (
+    <Grid centered style = { {marginTop : '2rem'} }>
+      <Grid.Row > 
+        <Input 
+            icon='search' 
+            iconPosition='left'
+            placeholder='Search by title' 
+            style = { {marginRight : '2rem'}}
+            onChange = { ({ target }) =>  props.handleSearch(target.value) }
+          />
+        <Button 
+            color='teal' 
+            onClick = { props.goToCreatRecipeComponent}
+         >
+            Add recipe
+        </Button>
+      </Grid.Row>
+      <Grid.Row>
+          <Checkbox 
+            toggle 
+            label='sort by rating'
+            onChange = {  props.handleSwitchSorting }
+            checked = { props.isSortedByRating }
+          />
+      </Grid.Row>
+  </Grid>       
+);
 
-  render(){
-    return(
-         <Grid centered style = { {marginTop : '2rem'} }>
-          <Grid.Row > 
-            <Input 
-               icon='search' 
-               iconPosition='left'
-               placeholder='Search by title' 
-               style = { {marginRight : '2rem'}}
-               onChange = { this.handleSearchInput }
-             />
-            <Button color='teal' onClick = {this.props.goToCreatRecipeComponent}>Add recipe</Button>
-          </Grid.Row>
-          <Grid.Row>
-             <Checkbox 
-               toggle 
-               label='sort by rating'
-               onChange = { this.props.handleSwitchSorting }
-             />
-          </Grid.Row>
-        </Grid>       
-    )
-  }
+export default RecipeListHeader
+  
+RecipeListHeader.propTypes = {
+  handleSwitchSorting: PropTypes.func.isRequired,
+  goToCreatRecipeComponent: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  isSortedByRating : PropTypes.bool
 }

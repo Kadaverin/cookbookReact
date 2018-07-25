@@ -96,3 +96,19 @@ export const changeRecipeTitleFIlter = (recipeTitleFilter) => ({
   type: actionTypes.CHANGLE_RECIPE_TITLE_FILTER,
   payload : { recipeTitleFilter }
 })
+
+// rating 
+
+export const changeRecipeRatingRequest = (id , rating) => ({
+  type: actionTypes.CHANGE_RECIPE_RATING_REQUEST,
+  payload : { id , rating }
+})
+
+export const changeRecipeRatingSuccess = (updatedRecipy) => ({
+  type: actionTypes.CHANGE_RECIPE_RATING_SUCCESS,
+  payload: updatedRecipy
+})
+
+export const changeRecipeRatingError = () => ({
+  type: actionTypes.CHANGE_RECIPE_RATING_ERROR
+})

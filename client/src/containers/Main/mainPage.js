@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { allVissibleAndSortedRecipes } from '../../reducers/recipes';
+import { allVissibleAndSortedRecipes, isSortedByRating} from '../../reducers/recipes';
 
 import RecipeList from '../../components/RecipeList/recipeList';
 import RecipeListHeader from '../../components/RecipeList/recipeListHeader';
 import { 
   fetchAllRecipesRequest, deleteRecipeRequest, 
-  toggleSortByRatingFlag, changeRecipeTitleFIlter 
+  toggleSortByRatingFlag, changeRecipeTitleFIlter ,
+  updateRecipeRequest, changeRecipeRatingRequest
 } from '../../actions/recipes';
 
-
 import { Container } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
 
 class MainRecipesPage extends Component {
 
@@ -24,43 +25,59 @@ class MainRecipesPage extends Component {
   }
 
   handleEditRecipeClick = (id) => {
-    this.props.history.push(`/recipes/${id}`)
+    this.props.history.push(`/recipes/${id}/edit`)
   }
 
   handleAddRecipeClick = () => { 
     this.props.history.push('/recipes/new')
   }
 
-  handleRateRecipe = (id, rate) => {
-    this.props.actions.rateRecipeRequest(id, rate)
+  handleRateRecipe = (recipe, rating ) => {
+    this.props.actions.updateRecipeRequest( 
+      {
+         ...recipe,
+        rating: rating 
+      }
+    );
   }
 
+  handleVeiwRecipe = (recipe) => {
+    this.props.history.push(`/recipes/${recipe._id}`)
+  }
+
+  handleRateRecipe = (recipeId , rate ) => {
+    this.props.actions.changeRecipeRatingRequest(recipeId , rate )
+  }
 
 
   render() {
     const { recipes } = this.props;
     return (
-      <div>
-        <Container >
+      <Container >
         <RecipeListHeader
           goToCreatRecipeComponent = { this.handleAddRecipeClick }
           handleSearch = { this.props.actions.changeRecipeTitleFIlter }
           handleSwitchSorting = { this.props.actions.toggleSortByRatingFlag }
+          isSortedByRating = { this.props.isSortedByRating }
         />
         <RecipeList 
           recipes = {recipes}
           handleDeleteRecipe = { this.handleDeleteRecipe }
-          handleRateRecipe = { this.rateRacipe }
+          handleRateRecipe = { this.handleRateRecipe }
           goToEditRecipe = { this.handleEditRecipeClick }
+          handleVeiwRecipe = { this.handleVeiwRecipe }
+          hangleRateRecipe = { this.handleRateRecipe}
         />
-        </Container>
-      </div>
+      </Container>
     );
   }
 }
 
 function mapStateToProps(state){
-  return { recipes : allVissibleAndSortedRecipes(state) } 
+  return { 
+    recipes : allVissibleAndSortedRecipes(state),
+    isSortedByRating : isSortedByRating(state)
+  } 
 }
 
 function mapDispatchToProps(dispatch){
@@ -68,10 +85,32 @@ function mapDispatchToProps(dispatch){
     actions : bindActionCreators(
        {
         fetchAllRecipesRequest, deleteRecipeRequest,
-        toggleSortByRatingFlag, changeRecipeTitleFIlter    
+        toggleSortByRatingFlag, changeRecipeTitleFIlter,
+        updateRecipeRequest, changeRecipeRatingRequest
        }
       , dispatch) 
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainRecipesPage)
+
+
+MainRecipesPage.propTypes = {
+
+  recipes: PropTypes.arrayOf(PropTypes.shape({
+    title : PropTypes.string,
+    rating: PropTypes.number,
+    decription: PropTypes.string
+  })),
+
+  isSortedByRating: PropTypes.bool,
+
+  actions: PropTypes.shape({
+    fetchAllRecipesRequest : PropTypes.func.isRequired,
+    deleteRecipeRequest: PropTypes.func.isRequired,
+    toggleSortByRatingFlag : PropTypes.func.isRequired,
+    changeRecipeTitleFIlter: PropTypes.func.isRequired,
+    updateRecipeRequest : PropTypes.func.isRequired,
+    changeRecipeRatingRequest: PropTypes.func.isRequired
+  }),
+}

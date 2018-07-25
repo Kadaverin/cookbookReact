@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { fetchRecipeRequest, updateRecipeRequest} from '../../actions/recipes'
 import { activeRecipe } from '../../reducers/recipes'
 import RecipeForm from '../../components/RecipeForm/recipeForm'
+import PropTypes from 'prop-types'
 
 class EditRecipe extends Component{
   constructor(props){
@@ -67,3 +68,18 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditRecipe)
+
+
+EditRecipe.propTypes = {
+
+  recipeToEdit: PropTypes.shape({ 
+    title : PropTypes.string,
+    rating: PropTypes.number,
+    decription: PropTypes.string
+  }),
+
+  actions: PropTypes.shape({
+    fetchRecipeRequest : PropTypes.func.isRequired,
+    updateRecipeRequest: PropTypes.func.isRequired
+  }),
+}

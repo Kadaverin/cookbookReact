@@ -13,8 +13,6 @@ recipe.route('/')
 			});
 	})
 	.post((req, res) => {
-		console.log('BODY')
-		console.log(req.body)
 		recipeService.addRecipe(req.body)
 			.then(recipe => {
 				res.send(recipe);
@@ -26,7 +24,7 @@ recipe.route('/')
 	
 
 recipe.route('/:id')
-	.patch((req, res) => {
+	.put((req, res) => {
 		recipeService.updateRecipe(req.params.id, req.body)
 			.then(recipe => {
 				res.send(recipe);
@@ -52,6 +50,15 @@ recipe.route('/:id')
 			.catch(err => {
 				console.log(err);
 			});
+	})
+	.patch((req, res) => {
+		recipeService.changeRecipeRating(req.params.id , req.body.rating)
+			.then( recipe => {
+				res.send(recipe)
+			})
+			.catch( err => {
+				console.log(err)
+			})
 	});
 
 module.exports = recipe;

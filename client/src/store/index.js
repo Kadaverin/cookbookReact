@@ -1,4 +1,4 @@
-import { applyMiddleware, compose, createStore } from 'redux'
+import { applyMiddleware,  createStore } from 'redux'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import rootSaga from '../sagas'
@@ -10,12 +10,11 @@ const sagaMiddleware = createSagaMiddleware()
 
 
 const store = createStore(
-  connectRouter(history)(rootReducer), // new root reducer with router state
+  connectRouter(history)(rootReducer), 
   composeWithDevTools(
     applyMiddleware(
-      routerMiddleware(history), // for dispatching history actions
+      routerMiddleware(history), 
       sagaMiddleware
-      // ... other middlewares ...
     ),
   ),
 )

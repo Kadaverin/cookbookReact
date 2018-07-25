@@ -1,12 +1,20 @@
-import React, { Component } from 'react';
-import { Button, Form, Card, Rating } from 'semantic-ui-react'
+import React from 'react';
+import { Button, Card } from 'semantic-ui-react'
+import Rating from 'react-rating'
+import PropTypes from 'prop-types'
 
  const  RecipeList  = (props ) => (
     <Card.Group centered style = {{ marginTop : '3rem'}}>
-      {props.recipes && props.recipes.map( (recipe, index) =>
+      { props.recipes && props.recipes.map( (recipe, index) =>
          (
-            <Card key = {index}>
+            <Card key = {index} >
               <Card.Content textAlign = 'right'>
+                <Button 
+                    circular 
+                    icon='eye' 
+                    compact size = 'mini' 
+                    onClick = { () => props.handleVeiwRecipe(recipe) }
+                 />
                  <Button 
                     circular 
                     icon='edit' 
@@ -22,15 +30,16 @@ import { Button, Form, Card, Rating } from 'semantic-ui-react'
                  />
               </Card.Content>
               <Card.Content>
-                <Card.Header textAlign = 'center'> { recipe.title || 'undef' }</Card.Header>
-                <Card.Description> { recipe.description || 'undef'} </Card.Description>
+                <Card.Header textAlign = 'center'> { recipe.title }</Card.Header>
+                <Card.Description> { recipe.description } </Card.Description>
               </Card.Content>
               <Card.Content textAlign = 'center'>
-                 <Rating 
-                    maxRating={5}  
-                    defaultRating = {recipe.rating }
-                    onRate = { (e, { rating }) => props.handleRateRecipe(recipe._id, rating) }
-                 /> 
+                <Rating 
+                  initialRating = { recipe.rating }
+                  onChange = { (rate) => props.handleRateRecipe(recipe._id, rate) }
+                  emptySymbol="far fa-star fa-sm"
+                  fullSymbol="fas fa-star fa-sm"
+                />
               </Card.Content>
             </Card>
           )
@@ -40,3 +49,15 @@ import { Button, Form, Card, Rating } from 'semantic-ui-react'
  )
     export default RecipeList
   
+RecipeList.propTypes = {
+  handleRateRecipe: PropTypes.func.isRequired,
+  handleDeleteRecipe: PropTypes.func.isRequired,
+  goToEditRecipe: PropTypes.func.isRequired,
+  handleVeiwRecipe: PropTypes.func.isRequired,
+
+  recipes: PropTypes.arrayOf(PropTypes.shape({
+    title : PropTypes.string,
+    rating: PropTypes.number,
+    decription: PropTypes.string
+  })),
+}
