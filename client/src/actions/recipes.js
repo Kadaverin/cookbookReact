@@ -53,15 +53,30 @@ export const createRecipeError = () => ({
 
 // DELETE
 
-export const deleteRecipeRequest = () => ({
-  type: actionTypes.DELETE_RECIPE_REQUEST
+export const deleteRecipeRequest = (id) => ({
+  type: actionTypes.DELETE_RECIPE_REQUEST,
+  payload : { id }
 })
 
-export const deleteRecipeSucess = () => ({
-  type: actionTypes.DELETE_RECIPE_SUCCESS
+export const deleteRecipeSucess = (deletedId) => ({
+  type: actionTypes.DELETE_RECIPE_SUCCESS,
+  payload : { id : deletedId }
 })
 
 export const deleteRecipeError = () => ({
   type: actionTypes.DELETE_RECIPE_ERROR
 })
 
+
+// sorting 
+
+export const toggleSortByRatingFlag = () => ({
+  type: actionTypes.TOGGLE_SORT_BY_RATING_FLAG
+})
+
+// search
+
+export const changeRecipeTitleFIlter = (recipeTitleFilter) => ({
+  type: actionTypes.CHANGLE_RECIPE_TITLE_FILTER,
+  payload : { recipeTitleFilter }
+})

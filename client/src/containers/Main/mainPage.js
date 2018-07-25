@@ -1,24 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {fetchAllRecipesRequest , deleteRecipeRequest} from '../../actions/recipes';
-import { allRecipes } from '../../reducers/recipes';
+import { allVissibleAndSortedRecipes } from '../../reducers/recipes';
 
 import RecipeList from '../../components/RecipeList/recipeList';
 import RecipeListHeader from '../../components/RecipeList/recipeListHeader';
+import { 
+  fetchAllRecipesRequest, deleteRecipeRequest, 
+  toggleSortByRatingFlag, changeRecipeTitleFIlter 
+} from '../../actions/recipes';
 
 
 import { Container } from 'semantic-ui-react'
 
 class MainRecipesPage extends Component {
 
+  constructor(props){
+    super(props)
+    this.handleDeleteRecipe = this.handleDeleteRecipe.bind(this)
+  }
+
 
   componentDidMount(){
     this.props.actions.fetchAllRecipesRequest();
   }
 
-  handleDeleteRecipy = (id) => {
-    this.props.atcions.deleteRecipeRequest(id)
+  handleDeleteRecipe(id){
+    this.props.actions.deleteRecipeRequest(id)
   }
 
   handleEditRecipe(id){
@@ -38,8 +46,13 @@ class MainRecipesPage extends Component {
         <Container >
         <RecipeListHeader
           goToCreatRecipeComponent = { this.handleAddRecipeClick }
+          handleSearch = { this.props.actions.changeRecipeTitleFIlter }
+          handleSwitchSorting = { this.props.actions.toggleSortByRatingFlag }
         />
-        <RecipeList recipes = {recipes}/>
+        <RecipeList 
+          recipes = {recipes}
+          handleDeleteRecipe = { this.handleDeleteRecipe }
+        />
         </Container>
       </div>
     );
@@ -47,13 +60,16 @@ class MainRecipesPage extends Component {
 }
 
 function mapStateToProps(state){
-  return { recipes : allRecipes(state) } 
+  return { recipes : allVissibleAndSortedRecipes(state) } 
 }
 
 function mapDispatchToProps(dispatch){
   return { 
     actions : bindActionCreators(
-      { fetchAllRecipesRequest, deleteRecipeRequest }
+       {
+        fetchAllRecipesRequest, deleteRecipeRequest,
+        toggleSortByRatingFlag, changeRecipeTitleFIlter    
+       }
       , dispatch) 
   }
 }

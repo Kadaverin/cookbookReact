@@ -1,35 +1,34 @@
 import { combineReducers } from 'redux'
 import * as actionTypes from '../constants/actionTypes'
 
-const initialState = {
-  byId : {},
-  all : [],
-}
-
 // const initialState = {
 //   byId : {},
 //   all : [],
-//   recipeTitleFilter : ''
-//   sortByRating : false
 // }
 
-// и потом
+const initialState = {
+  byId : {},
+  all : [],
+  recipeTitleFilter : '',
+  sortByRating : false
+}
 
-// function recipeTitleFilter(state = initialState.recipeTitleFilter, action){
-//   switch(action.type){
-//     case actionTypes.CHANGLE_RECIPE_TITLE_FILTER:
-//       return action.payload
-//     default: return state
-//   }
-// }
 
-// function sortByRating(state = initialState.sortByRating, action){
-//   switch(action.type){
-//     case actionTypes.TOGGLE_SORT_BY_RATING_FLAG:
-//       return !state
-//     default: return state
-//   }
-// }
+function recipeTitleFilter(state = initialState.recipeTitleFilter, action){
+  switch(action.type){
+    case actionTypes.CHANGLE_RECIPE_TITLE_FILTER:
+      return action.payload.recipeTitleFilter
+    default: return state
+  }
+}
+
+function sortByRating(state = initialState.sortByRating, action){
+  switch(action.type){
+    case actionTypes.TOGGLE_SORT_BY_RATING_FLAG:
+      return !state
+    default: return state
+  }
+}
 
 
 function all (state = initialState.all, action) {
@@ -65,21 +64,24 @@ function byId(state = initialState.byId, action){
 
 export default combineReducers({
   all,
-  byId
+  byId,
+  recipeTitleFilter,
+  sortByRating
 })
 
-export const allRecipes = ({ recipes }) => recipes.all.map(id => recipes.byId[id]);
+// export const allRecipes = ({ recipes }) => recipes.all.map(id => recipes.byId[id]);
 export const recipeById = id => ({ recipes }) => recipes.byId[id]
 
 
-// или вынести это в логику Recipy. Он состоит из хедера и списка. В хедере есть инпут поиска (фильтер) и чекбокс сортировки
-// export const allRecipes = ({ recipes }) => {
-//   recipes.all.map(id => recipes.byId[id]);
-//   if (recipes.sortByRating) {
-//     recipes.sort( (rec1, rec2) => rec1.rating - rec2.rating )
-//   }
-//   if (recipes.recipeTitleFilter){
-//     resipes = resipes.filter( rec => rec.title.includes(recipes.recipeTitleFilter))
-//   }
-//   return recipes
-// } 
+// или вынести это в логику компонента ..
+
+export const allVissibleAndSortedRecipes = ({ recipes }) => {
+  let res = recipes.all.map(id => recipes.byId[id]);
+  if (recipes.sortByRating) {
+    res.sort( (rec1, rec2) => rec1.rating - rec2.rating )
+  }
+  if (recipes.recipeTitleFilter){
+    res  = res.filter( recipe => new RegExp(recipes.recipeTitleFilter , 'i').test(recipe.title));
+  }
+  return res 
+} 

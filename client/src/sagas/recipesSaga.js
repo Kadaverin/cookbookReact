@@ -1,7 +1,6 @@
 import { takeLatest ,all ,call ,put } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 import { push } from 'connected-react-router';
-// import recipesSchema
 import * as actionTypes from '../constants/actionTypes';
 import recipesAPI from '../api/recipesApi'
 import * as actionCreators from '../actions/recipes'
@@ -42,11 +41,13 @@ function* createRecipe(action){
 }
 
 function* deleteRecipe(action){
+  console.log(action)
   try {
     const deleted = yield call(recipesAPI.deleteRecipe, action.payload.id);
-    yield put( actionCreators.deleteRecipeSucess(deleted) );
+    yield put( actionCreators.deleteRecipeSucess(action.payload.id) );
   } catch (e) {
-    yield put( actionCreators.createRecipeError );
+    console.log(e)
+    yield put( actionCreators.deleteRecipeError() );
   } 
 }
 

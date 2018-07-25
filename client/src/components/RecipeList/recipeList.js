@@ -8,7 +8,12 @@ import { Button, Form, Card, Rating } from 'semantic-ui-react'
             <Card key = {index}>
               <Card.Content textAlign = 'right'>
                  <Button circular icon='edit' compact   size = 'mini'></Button>
-                 <Button circular icon='delete' compact size = 'mini' ></Button>
+                 <Button 
+                    circular 
+                    icon='delete' 
+                    compact size = 'mini' 
+                    onClick = { () => props.handleDeleteRecipe(recipe._id) }
+                 />
               </Card.Content>
               <Card.Content>
                 <Card.Header textAlign = 'center'> { recipe.title || 'undef' }</Card.Header>
