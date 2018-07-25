@@ -93,11 +93,11 @@ export const toggleSortByRatingFlag = () => ({
 // search
 
 export const changeRecipeTitleFIlter = (recipeTitleFilter) => ({
-  type: actionTypes.CHANGLE_RECIPE_TITLE_FILTER,
+  type: actionTypes.CHANGE_RECIPE_TITLE_FILTER,
   payload : { recipeTitleFilter }
 })
 
-// rating 
+// rating  
 
 export const changeRecipeRatingRequest = (id , rating) => ({
   type: actionTypes.CHANGE_RECIPE_RATING_REQUEST,

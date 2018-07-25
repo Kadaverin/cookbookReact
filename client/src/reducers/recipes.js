@@ -14,7 +14,7 @@ const initialState = {
 
 function recipeTitleFilter(state = initialState.recipeTitleFilter, action){
   switch(action.type){
-    case actionTypes.CHANGLE_RECIPE_TITLE_FILTER:
+    case actionTypes.CHANGE_RECIPE_TITLE_FILTER:
       return action.payload.recipeTitleFilter
     default: return state
   }
