@@ -32,9 +32,9 @@ function* fetchRecipe(action){
 
 function* createRecipe(action){
   try {
-    console.log(action.payload)
     const newRecipe = yield call(recipesAPI.createRecipy, action.payload)
     yield put( actionCreators.createRecipeSuccess(newRecipe) )
+    yield put(push('/recipes'));
   } catch (e) {
     yield put( actionCreators.createRecipeError() )
   }
@@ -51,11 +51,23 @@ function* deleteRecipe(action){
   } 
 }
 
+function* updateRecipe(action){
+  try {
+    const updated = yield call(recipesAPI.patchRecipe, action.payload._id , action.payload)
+    yield put(actionCreators.updateRecipeSuccess(updated))
+    yield put(push('/recipes'));
+  } catch (e) {
+    console.log(e)
+    yield put (actionCreators.updateRecipeError())    
+  }
+}
+
 export default function* recipesSaga(){
   yield all([
     takeLatest(actionTypes.FETCH_ALL_RECIPES_REQUEST, fetchAllRecipes),
     takeLatest(actionTypes.CREATE_RECIPE_REQUEST, createRecipe),
     takeLatest(actionTypes.FETCH_RECIPE_REQUEST, fetchRecipe),
-    takeLatest(actionTypes.DELETE_RECIPE_REQUEST, deleteRecipe)
+    takeLatest(actionTypes.DELETE_RECIPE_REQUEST, deleteRecipe),
+    takeLatest(actionTypes.UPDATE_RECIPE_REQUEST, updateRecipe)
   ])
 }

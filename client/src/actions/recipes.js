@@ -21,13 +21,13 @@ export const allRecipesFetchedAndNormalized = (all , byId) => ({
 // GET ONE
 
 export const fetchRecipeRequest = (id) => ({
-  type: actionTypes.FETCH_RECIPE_SUCCESS,
+  type: actionTypes.FETCH_RECIPE_REQUEST,
   payload : { id }
 })
 
 export const fetchRecipeSuccess = (recipe) => ({
   type: actionTypes.FETCH_RECIPE_SUCCESS,
-  payload: { ...recipe }
+  payload: recipe 
 })
 
 export const fetchRecipeError = () => ({
@@ -49,6 +49,22 @@ export const createRecipeSuccess = (newRecipe) => ({
 
 export const createRecipeError = () => ({
   type: actionTypes.CREATE_RECIPE_ERROR
+})
+
+// UPDATE
+
+export const updateRecipeRequest = (newRecipe) => ({
+  type: actionTypes.UPDATE_RECIPE_REQUEST,
+  payload : newRecipe
+})
+
+export const updateRecipeSuccess = (updatedRecipe) => ({
+  type: actionTypes.UPDATE_RECIPE_SUCCESS,
+  payload : updatedRecipe
+})
+
+export const updateRecipeError = () => ({
+  type: actionTypes.UPDATE_RECIPE_ERROR
 })
 
 // DELETE

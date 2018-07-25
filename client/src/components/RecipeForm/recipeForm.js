@@ -37,6 +37,7 @@ export default class RecipeForm extends Component{
               name = 'title'
               placeholder='recipe title'
               onChange = { this.handleChange }
+              defaultValue = {this.props.initTitle}
             />
             <Form.TextArea
               label = 'Description'
@@ -44,6 +45,7 @@ export default class RecipeForm extends Component{
               autoHeight 
               placeholder='recipe description' 
               onChange = { this.handleChange }
+              defaultValue = {this.props.initDesc}
             />
             <Button.Group>
               <Button  onClick = { this.props.cancelHandler }>Go back</Button>

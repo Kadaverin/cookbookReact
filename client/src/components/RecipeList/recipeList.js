@@ -7,7 +7,13 @@ import { Button, Form, Card, Rating } from 'semantic-ui-react'
          (
             <Card key = {index}>
               <Card.Content textAlign = 'right'>
-                 <Button circular icon='edit' compact   size = 'mini'></Button>
+                 <Button 
+                    circular 
+                    icon='edit' 
+                    compact   
+                    size = 'mini'
+                    onClick = { () => props.goToEditRecipe(recipe._id) }
+                 />
                  <Button 
                     circular 
                     icon='delete' 
@@ -20,7 +26,11 @@ import { Button, Form, Card, Rating } from 'semantic-ui-react'
                 <Card.Description> { recipe.description || 'undef'} </Card.Description>
               </Card.Content>
               <Card.Content textAlign = 'center'>
-                 <Rating maxRating={5} /> 
+                 <Rating 
+                    maxRating={5}  
+                    defaultRating = {recipe.rating }
+                    onRate = { (e, { rating }) => props.handleRateRecipe(recipe._id, rating) }
+                 /> 
               </Card.Content>
             </Card>
           )

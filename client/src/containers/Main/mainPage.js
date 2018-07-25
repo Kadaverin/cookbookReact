@@ -15,26 +15,24 @@ import { Container } from 'semantic-ui-react'
 
 class MainRecipesPage extends Component {
 
-  constructor(props){
-    super(props)
-    this.handleDeleteRecipe = this.handleDeleteRecipe.bind(this)
-  }
-
-
   componentDidMount(){
     this.props.actions.fetchAllRecipesRequest();
   }
 
-  handleDeleteRecipe(id){
+  handleDeleteRecipe = (id) => {
     this.props.actions.deleteRecipeRequest(id)
   }
 
-  handleEditRecipe(id){
+  handleEditRecipeClick = (id) => {
     this.props.history.push(`/recipes/${id}`)
   }
 
-  handleAddRecipeClick = () =>{
+  handleAddRecipeClick = () => { 
     this.props.history.push('/recipes/new')
+  }
+
+  handleRateRecipe = (id, rate) => {
+    this.props.actions.rateRecipeRequest(id, rate)
   }
 
 
@@ -52,6 +50,8 @@ class MainRecipesPage extends Component {
         <RecipeList 
           recipes = {recipes}
           handleDeleteRecipe = { this.handleDeleteRecipe }
+          handleRateRecipe = { this.rateRacipe }
+          goToEditRecipe = { this.handleEditRecipeClick }
         />
         </Container>
       </div>

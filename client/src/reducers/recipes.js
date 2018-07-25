@@ -10,7 +10,8 @@ const initialState = {
   byId : {},
   all : [],
   recipeTitleFilter : '',
-  sortByRating : false
+  sortByRating : false,
+  active: null
 }
 
 
@@ -62,15 +63,31 @@ function byId(state = initialState.byId, action){
   }
 }
 
+function active(state = initialState.active, action){
+  switch(action.type){
+    case actionTypes.FETCH_ALL_RECIPES_REQUEST: 
+      return null
+
+    case actionTypes.FETCH_RECIPE_SUCCESS:{
+      return action.payload._id
+    }
+      
+
+    default: return state
+  }
+}
+
 export default combineReducers({
   all,
   byId,
+  active,
   recipeTitleFilter,
   sortByRating
 })
 
-// export const allRecipes = ({ recipes }) => recipes.all.map(id => recipes.byId[id]);
-export const recipeById = id => ({ recipes }) => recipes.byId[id]
+
+
+export const activeRecipe = ({recipes}) => recipes.active? recipes.byId[recipes.active]: null
 
 
 // или вынести это в логику компонента ..
